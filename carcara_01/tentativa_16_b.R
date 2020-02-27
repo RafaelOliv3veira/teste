@@ -24,7 +24,7 @@ x0 <- c(20,30)
 source("/home/posmae/leafaros/Allcodigos/teste/carcara_01/simulate_data_function.R")
 
 
-
+for(i in 1:3){
 
 Dados <- simulate_data(N , Q, R, K,Sigma, Lambda, x0)
 
@@ -44,7 +44,7 @@ initf2 <- function(chain_id = 1) {
 } 
 
 
-n_chains <- 4
+n_chains <- 1
 init_ll <- lapply(1:n_chains, function(id) initf2(chain_id = id))
 
 
@@ -54,8 +54,13 @@ fit <- stan(file = "/home/posmae/leafaros/Allcodigos/teste/carcara_01/modelo.sta
 
 
 
-Tabela <- summary(fit, pars=c("q1","q2","q3","r1","r2","K1","K2","Sigma"), probs = c(0.025,0.5, 0.975))$summary[,1]
+Tabela[i,] <- summary(fit, pars=c("q1","q2","q3","r1","r2","K1","K2","Sigma"), probs = c(0.025,0.5, 0.975))$summary[,1]
 
+}
+
+
+
+colMeans(Tabela)
 
 
 
