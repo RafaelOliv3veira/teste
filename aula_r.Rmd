@@ -1,6 +1,15 @@
 ---
 title: "Introdução ao R para análise exploratória de dados"
-output: beamer_presentation
+author: Rafael Oliveira Silva
+date: 09 de março 2020
+output:
+  beamer_presentation:
+    theme: "CambridgeUS"
+    colortheme: "default"
+    fonttheme: "structurebold"
+    
+  slidy_presentation:
+    fontsize: 9pt
 ---
 
 ```{r setup, include=FALSE}
@@ -9,21 +18,28 @@ knitr::opts_chunk$set(echo = FALSE)
 
 ## Apresentando o R
 
+\begin{itemize}
+\item \textbf{O que é o R ?}
+O R é uma linguagem e ambiente voltados para estatística computacional e gráficos. Aberto e gratuito, é compatível com Windows, UNIX e MacOS. Atualmente o R se encontra em sua versão \textcolor{red}{3.6.3}.
+\item O R foi desenvolvido por Ross Ihaka e Robert Gentleman em 1990.
+\item RStudio é um Ambiente de Desenvolvimento Integrado (IDE - inglês Integrated Development Environment) para criar e rodar o código R.
+\item Onde podemos baixar o R ? E o RStudio ?
 This is an R Markdown presentation. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
-
-When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document.
+\end{itemize}
 
 ## Apresentando o R
 
-This is an R Markdown presentation. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
+```{r , echo=FALSE, fig.cap="A caption2", out.width = '100%'}
+knitr::include_graphics("fig_r.png")
+```
 
-When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document.
 
-## Apresentando o R
+## Apresentando o RStudio
 
-This is an R Markdown presentation. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
+```{r , echo=FALSE, fig.cap="A caption", out.width = '100%'}
+knitr::include_graphics("fig_rs1.png")
+```
 
-When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document.
 
 ## Apresentando o R
 
@@ -52,7 +68,7 @@ When you click the **Knit** button a document will be generated that includes bo
 
 ## Operações Básicas no R
 
-```{r, echo = TRUE}
+```{r, echo = TRUE, size= 'scriptsize'}
 #Adição
 2+2
 
@@ -68,7 +84,7 @@ When you click the **Knit** button a document will be generated that includes bo
 
 ## Funções Básicas no R
 
-```{r, echo = TRUE}
+```{r, echo = TRUE, size= 'scriptsize'}
 #Raiz quadrada
 sqrt(4)
 #Logaritmo na base 10
@@ -84,7 +100,7 @@ factorial(2)
 
 ## Funções Básicas no R
 
-```{r, echo = TRUE}
+```{r, echo = TRUE, size= 'scriptsize'}
 #Valor absoluto
 abs(-2)
 #Arredondando
@@ -100,7 +116,7 @@ ceiling(log(2))
 ## Tipo de Objetos: vetor, matriz, arrays, data-frames, listas e funções
 
 * Vetor
-```{r , echo = TRUE}
+```{r , echo = TRUE, size= 'scriptsize'}
 x <- c(3,1,5,4)
 #Selecionando o segundo valor do vetor
 x[2]
@@ -229,7 +245,7 @@ Ou: ||
 
 if (Expressão teste) $\{$
 declaração
-$\}$ else  declaraçãos
+$\}$ else  declaração
 
 ```{r , echo = TRUE}
 x <- 3
@@ -310,10 +326,9 @@ var(pesoH)
 ```
 
 ## Análise descritiva no R
-tentar juntar tudo
 ```{r , echo = TRUE}
-hist(pesoH)
-
+par(mfrow=c(1,2)) ; hist(pesoH, main="Histograma", ylab = "Densidade", xlab = "Peso" ) 
+hist(pesoH,freq = F, main="Histograma", ylab = "Densidade", xlab = "Peso")
 ```
 ## Análise descritiva no R box plot
 
