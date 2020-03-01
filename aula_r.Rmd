@@ -1,74 +1,107 @@
 ---
-title: "Introdução ao R para análise exploratória de dados"
-author: Rafael Oliveira Silva
-date: 09 de março 2020
+title: "MAE0399 – Análise de Dados e Simulação:\\ Introdução ao R para análise exploratória de dados"
+author:  Profª$:$ Márcia D’Elia Branco 
+institute: Monitor PAE$:$ Rafael Oliveira Silva 
+date:  IME-USP  
+
 output:
   beamer_presentation:
     theme: "CambridgeUS"
     colortheme: "default"
-    fonttheme: "structurebold"
-    
-  slidy_presentation:
-    fontsize: 9pt
+    fonttheme: "default"
+  pdf_document: 
+    keep_tex: true
+    includes:
+      in_header: columns.tex
 ---
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = FALSE)
+knitr::opts_chunk$set(echo = TRUE, size = "footnotesize")
 ```
 
 ## Apresentando o R
 
-\begin{itemize}
-\item \textbf{O que é o R ?}
-O R é uma linguagem e ambiente voltados para estatística computacional e gráficos. Aberto e gratuito, é compatível com Windows, UNIX e MacOS. Atualmente o R se encontra em sua versão \textcolor{red}{3.6.3}.
-\item O R foi desenvolvido por Ross Ihaka e Robert Gentleman em 1990.
-\item RStudio é um Ambiente de Desenvolvimento Integrado (IDE - inglês Integrated Development Environment) para criar e rodar o código R.
-\item Onde podemos baixar o R ? E o RStudio ?
-This is an R Markdown presentation. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
-\end{itemize}
+:::::: {.columns}
+
+::: {.column width="50%"}
+* \textbf{O que é o R ?}
+O R é uma linguagem e ambiente voltados para estatística computacional e gráficos.
+* O R foi desenvolvido por Ross Ihaka e Robert Gentleman em 1990.
+```{r, echo=FALSE, fig.width=5, fig.height=4}
+knitr::include_graphics("Criadores.jpg")
+```
+:::
+
+::: {.column width="1%"}
+\ 
+<!-- an empty Div (with a whitespace), serving as
+a column separator -->
+:::
+
+::: {.column width="49%"}
+* Aberto e gratuito, é compatível com Windows, Linux e Mac.
+* Atualmente o R está na versão \textcolor{red}{3.6.3}.
+* RStudio é um Ambiente de Desenvolvimento Integrado (IDE - inglês Integrated Development Environment) para criar e rodar o código R.
+* Onde podemos baixar o R e o RStudio ?
+    + <https://cran.r-project.org/>
+    + <https://rstudio.com/products/rstudio/download/>
+:::
+::::::
+
+
+
+
+
 
 ## Apresentando o R
 
-```{r , echo=FALSE, fig.cap="A caption2", out.width = '100%'}
+```{r , echo=FALSE, out.width = '100%'}
 knitr::include_graphics("fig_r.png")
 ```
+
+## Apresentando o RStudio
+
+```{r , echo=FALSE,  out.width = '100%'}
+knitr::include_graphics("fig_rs0.png")
+```
+
 
 
 ## Apresentando o RStudio
 
-```{r , echo=FALSE, fig.cap="A caption", out.width = '100%'}
+```{r , echo=FALSE, out.width = '100%'}
 knitr::include_graphics("fig_rs1.png")
 ```
 
 
 ## Apresentando o R
 
-* This is an R Markdown presentation. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
-
-* When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document.
-
-## Apresentando o RStudio
-
-This is an R Markdown presentation. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
-
-When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document.
-
-## Apresentando o RStudio
-
-This is an R Markdown presentation. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
-
-When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document.
+```{r , echo=FALSE, out.width = '100%'}
+knitr::include_graphics("rmark.png")
+```
 
 
 ## Apresentando o RStudio
 
-This is an R Markdown presentation. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
+```{r , echo=FALSE, out.width = '100%'}
+knitr::include_graphics("rmark2.png")
+```
 
-When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document.
+## Apresentando o RStudio
+
+```{r , echo=FALSE, out.width = '100%'}
+knitr::include_graphics("rmark3.png")
+```
+
+## Apresentando o RStudio
+
+```{r , echo=FALSE,  out.width = '100%'}
+knitr::include_graphics("rmark4.png")
+```
 
 ## Operações Básicas no R
-
-```{r, echo = TRUE, size= 'scriptsize'}
+\scriptsize
+```{r, echo = TRUE, size= "scriptsize"}
 #Adição
 2+2
 
@@ -83,7 +116,7 @@ When you click the **Knit** button a document will be generated that includes bo
 ```
 
 ## Funções Básicas no R
-
+\scriptsize
 ```{r, echo = TRUE, size= 'scriptsize'}
 #Raiz quadrada
 sqrt(4)
@@ -99,7 +132,7 @@ factorial(2)
 
 
 ## Funções Básicas no R
-
+\scriptsize
 ```{r, echo = TRUE, size= 'scriptsize'}
 #Valor absoluto
 abs(-2)
@@ -114,7 +147,7 @@ ceiling(log(2))
 ```
 
 ## Tipo de Objetos: vetor, matriz, arrays, data-frames, listas e funções
-
+\scriptsize
 * Vetor
 ```{r , echo = TRUE, size= 'scriptsize'}
 x <- c(3,1,5,4)
@@ -129,7 +162,7 @@ z
 
 
 ## Vetor
-
+\scriptsize
 
 ```{r , echo = TRUE}
 #Repetindo o valor 6 quatro vezes
@@ -144,6 +177,7 @@ sum(c(1,2,3))
 
 
 ## Vetor
+\scriptsize
 ```{r , echo = TRUE}
 #Comprimento de um vetor
 length(c(1,2,3))
@@ -155,6 +189,7 @@ sort(c(2,1,3),decreasing = TRUE)
 
 
 ## Vetor
+\scriptsize
 ```{r , echo = TRUE}
 #retorna a posição dos elementos ...
 order(c(2,8,-4), decreasing = FALSE)
@@ -168,6 +203,7 @@ pmin(1,c(0,1,2,3))
 ```
 
 ## Matriz
+\scriptsize
 ```{r , echo = TRUE}
 M <- matrix(c(1,2,3,4),ncol = 2,nrow = 2)
 M
@@ -178,6 +214,7 @@ M[2,]
 ```
 
 ## Matriz
+\scriptsize
 ```{r , echo = TRUE}
 M <- matrix(0,ncol = 2,nrow = 2)
 M
@@ -188,6 +225,7 @@ M
 ```
 
 ## Matriz
+\scriptsize
 ```{r , echo = TRUE}
 #Matriz diagonal
 M <- diag(c(1,2))
@@ -197,6 +235,7 @@ M%*%M
 ```
 
 ## Matriz
+\scriptsize
 ```{r , echo = TRUE}
 D <- matrix(c(1,2,3,4),ncol = 2,nrow = 2)
 D
@@ -236,10 +275,7 @@ zbar(z)
 * Menor ou igual: <=
 * Maior ou igual: >=
 
-**Operadores lógicos**
-
-E: &&
-Ou: ||
+**Operadores lógicos**E: && Ou: ||
 
 **Condicionais**
 
@@ -247,6 +283,7 @@ if (Expressão teste) $\{$
 declaração
 $\}$ else  declaração
 
+\scriptsize
 ```{r , echo = TRUE}
 x <- 3
 if(x >= 1 & x <= 6){print("sim")} else {print("Não")}
@@ -284,19 +321,57 @@ falar sobre os pacotes ...
 ```{r , echo = TRUE}
 x <- c("Cara", "Coroa")
 #lançando uma moeda
-sample(x,5,replace = T)
+resultados <- sample(x,5,replace = T)
 
+resultados 
 
+table(resultados)
 ```
+
 
 ## Distribuições de Probabiliade no R
 
-* p for "probability", the cumulative distribution function (c. d. f.)
-* q for "quantile", the inverse c. d. f.
-* d for "density", the density function (p. f. or p. d. f.)
-* r for "random", a random variable having the specified distribution
+```{marginfigure}
+We know from _the first fundamental theorem of calculus_ that
+for $x$ in $[a, b]$:
+$$\frac{d}{dx}\left( \int_{a}^{x} f(u)\,du\right)=f(x).$$
+```
 
-**Simulando variáveis aleatorias no R**
+
+```{r , echo = TRUE}
+pnorm(0,0,1)
+qnorm(0.5,0,1)
+```
+
+* p para probabilidadde acumulada
+* q para quantil
+* d para densidade
+* r gerar uma amostra de uma distribuição
+
+**Simulando variáveis aleatórias no R**
+
+* $rnorm(n,mu,sigma)$ gerando $n$ valores da distribuição Normal($\mu, \sigma$). 
+* $runif(n,a,b)$ gerando $n$ valores da distribuição Uniforme($a,b$).
+* $rexp(n,lambda)$ gerando $n$ valores da distribuição Exponencial($\lambda$). 
+* $rpois(n,lambda)$ gerando $n$ valores da distribuição Poison($\lambda$). 
+* $rbinom(n,K,p)$ gerando $n$ valores da distribuição Binomial($K,p$). 
+ 
+
+
+
+
+
+
+
+
+## Distribuições de Probabiliade no R
+
+* p para probabilidadde acumulada
+* q para quantil
+* d para densidade
+* r gerar uma amostra de uma distribuição
+
+**Simulando variáveis aleatórias no R**
 
 * $rnorm(n,mu,sigma)$ gerando $n$ valores da distribuição Normal($\mu, \sigma$). 
 * $runif(n,a,b)$ gerando $n$ valores da distribuição Uniforme($a,b$).
@@ -332,10 +407,17 @@ hist(pesoH,freq = F, main="Histograma", ylab = "Densidade", xlab = "Peso")
 ```
 ## Análise descritiva no R box plot
 
+```{r fig-margin, fig.margin=TRUE}
+plot(cars)
+```
 
 ## Gráficos ggplot2
 
 
+* unordered list
+* item 2
+    + sub-item 1
+    + sub-item 2
 
 ## Ajustando um modelo de regressão no R
 
