@@ -45,20 +45,21 @@ functions {
 data {
 int N;
 vector<lower=0>[3] y[N];
+vector<lower=0>[2] H[N];
 vector[2] x0[1];
 vector[2] Um[1];
 vector[2] mu[1];
 matrix[2,2] I;
 matrix[2,2] I1;
 matrix[2,2] I2;
-cov_matrix[2] Lambda;
+
 }
 parameters {
 vector[2] x_tilde[N];
 real<lower=0> r1;
 real<lower=0> r2;
-corr_matrix[3] Omega;
-vector<lower=0>[3] sigma;
+cov_matrix[3] Sigma;
+cov_matrix[2] Lambda;
 real<lower=0> K1;
 real<lower=0> K2;
 real<lower=0> q1;
@@ -71,9 +72,6 @@ matrix[3,4] Q;
 matrix[2,2] R;
 matrix[2,2] K;
 vector<lower=0>[2] x[N];
-cov_matrix[3] Sigma; 
-
-Sigma = quad_form_diag(Omega, sigma); 
 
 
 Q[1,1] = q1;
@@ -100,13 +98,13 @@ K[2,1] = 0;
 K[2,2] = 1/K2;
 
 
-x[1] = x0[1] + x_tilde[1];
+x[1] = x0[1] + x_tilde[1] - H[1];
 
 
 for( t in 2:N )
 {
   
-  x[t] =  (I + R)*x[t-1] - R*K*( I1*x[t-1]*x[t-1]'*I1 + I2*x[t-1]*x[t-1]'*I2)*Um[1] + x_tilde[t];
+  x[t] =  (I + R)*x[t-1] - R*K*( I1*x[t-1]*x[t-1]'*I1 + I2*x[t-1]*x[t-1]'*I2)*Um[1] + x_tilde[t] - H[t];
   
 }
 
@@ -120,9 +118,8 @@ q2 ~ inv_gamma(0.001,0.001);
 q3 ~ inv_gamma(0.001,0.001);
 K1 ~ lognormal(3.5,0.1606);
 K2 ~ lognormal(3.5,0.1606);
-
-sigma ~ cauchy(0, 2.5);
-Omega ~ lkj_corr(2);
+Sigma ~ inv_wishart(2.1, diag_matrix(rep_vector(1,3)));
+Lambda ~ inv_wishart(1.1, diag_matrix(rep_vector(1,2)));
 
 for( t in 1:N )
 {
@@ -151,12 +148,9 @@ I2 <- diag(c(0,1))
 Q <- matrix(c(9,0,0,0,0,5,0,0,0,0,15,0),ncol =4,byrow = T)
 R <- diag(c(0.4,0.6))
 K <- diag(c(0.025,0.016))
-Sigma <- matrix(c(40^2,10^2,10^2,10^2,50^2,20^2,10^2,20^2,30^2), ncol = 3)
-Lambda <- matrix(c(2,1,1,3), ncol = 2)
-
-
-
-
+Sigma <- rinvwishart(3, diag(c(40^2,10^2,50^2)))
+Lambda <- rinvwishart(2, diag(c(0.1^2,0.1^2)))
+Ht <- abs(mvrnorm(n = N, c(0,0), diag(c(1,1))))
 
 origX <- matrix(data = 0, nrow = 2, ncol = N)
 Um <- matrix(c(1,1),ncol = 1)
@@ -166,13 +160,13 @@ x0 <- matrix(c(20, 30), nrow = 2, ncol = 1)
 
 
 X[, 1] <- x0;
-origX[, 1] <- x0;
+origX[, 1] <- x0 - Ht[1];
 
 for( i in 2:N )
 {
   
   origX[, i] <- (I + R) %*% origX[, i - 1] - R%*%K%*%( I1%*%origX[, i - 1]%*%t(origX[, i - 1])%*%I1 +
-                                                         I2%*%origX[, i - 1]%*%t(origX[, i - 1])%*%I2)%*%Um
+                                                         I2%*%origX[, i - 1]%*%t(origX[, i - 1])%*%I2)%*%Um - Ht[i]
   
 }
 
@@ -212,11 +206,10 @@ n_chains <- 1
 init_ll <- lapply(1:n_chains, function(id) initf2(chain_id = id))
 
 
-system.time({
-  fit <- stan(model_code = modelo, 
-              data=list( N=N, y=t(Y), x0= t(x0),mu=t(mu),I = I, I1 = I1, I2 = I2,Um=t(Um), Lambda = Lambda), 
-              iter=10000, chains=n_chains, init=init_ll,control = list(adapt_delta = 0.8,max_treedepth = 20))
-})
+fit <- stan(model_code = modelo, 
+            data=list( N=N, y=t(Y),H= Ht, x0= t(x0),mu=t(mu),I = I, I1 = I1, I2 = I2,Um=t(Um)), 
+            iter=10000, chains=n_chains, init=init_ll,control = list(adapt_delta = 0.8,max_treedepth = 20))
+
 
 fit 
 

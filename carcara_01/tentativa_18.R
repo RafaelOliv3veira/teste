@@ -57,7 +57,7 @@ parameters {
 vector[2] x_tilde[N];
 real<lower=0> r1;
 real<lower=0> r2;
-corr_matrix[3] Omega;
+cholesky_factor_corr[3] LOmega;  
 vector<lower=0>[3] sigma;
 real<lower=0> K1;
 real<lower=0> K2;
@@ -71,9 +71,6 @@ matrix[3,4] Q;
 matrix[2,2] R;
 matrix[2,2] K;
 vector<lower=0>[2] x[N];
-cov_matrix[3] Sigma; 
-
-Sigma = quad_form_diag(Omega, sigma); 
 
 
 Q[1,1] = q1;
@@ -121,8 +118,9 @@ q3 ~ inv_gamma(0.001,0.001);
 K1 ~ lognormal(3.5,0.1606);
 K2 ~ lognormal(3.5,0.1606);
 
-sigma ~ cauchy(0, 2.5);
-Omega ~ lkj_corr(2);
+sigma ~ cauchy(0, 5);
+LOmega ~ lkj_corr_cholesky(1);
+
 
 for( t in 1:N )
 {
@@ -135,11 +133,18 @@ for( t in 1:N )
 for( t in 1:N )
 {
   
-  y[t] ~ multi_normal(Q*kronecker_prod(x[t],I,Um[1]), Sigma);
+  y[t] ~ multi_normal_cholesky(Q*kronecker_prod(x[t],I,Um[1]),  diag_pre_multiply(sigma, LOmega));
   
 }
 
 }
+generated quantities {
+  matrix[3,3] Omega;
+  matrix[3,3] Sigma;
+  Omega = multiply_lower_tri_self_transpose(LOmega);
+  Sigma = quad_form_diag(Omega, sigma); 
+}
+
 "
 
 
@@ -162,7 +167,7 @@ origX <- matrix(data = 0, nrow = 2, ncol = N)
 Um <- matrix(c(1,1),ncol = 1)
 X <- matrix(data = 0, nrow = 2, ncol = N)
 
-x0 <- matrix(c(20, 30), nrow = 2, ncol = 1)
+x0 <- matrix(c(30, 30), nrow = 2, ncol = 1)
 
 
 X[, 1] <- x0;
