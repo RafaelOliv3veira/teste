@@ -173,6 +173,8 @@ rep(c(1,2,3),4)
 rep(c(1,2,3),each = 4)
 #soma dos elementos de um vetor
 sum(c(1,2,3))
+#produto dos elementos de um vetor
+prod(c(1,2,3))
 ```
 
 
@@ -308,12 +310,29 @@ for(i in 0:4){x[i+1] <- 2*i+1}
 x
 ```
 
-## Funções do R - Ciclos
+## A família apply 
 
-replicate()
-familia apply
+A família apply é composta por um conjunto de funções que pertencem nativamente ao R (pacote base).
 
-falar sobre os pacotes ...
+É importante frisar que essas funções não surgiram para substituir os loops convencionais e sim, como uma alternativa adicional para análises mais complexas.
+
+* apply() 
+
+* lapply() 
+
+* sapply() 
+
+## Pacotes no R
+
+Como instalar um pacote no R ?
+
+install.packages("nome do pacote")
+
+
+Como chamar os pacotes ?
+
+require("nome do pacote")
+
 
 
 ## Função Sample
@@ -329,38 +348,54 @@ table(resultados)
 ```
 
 
-## Distribuições de Probabiliade no R
+## Funções do R
 
-```{marginfigure}
-We know from _the first fundamental theorem of calculus_ that
-for $x$ in $[a, b]$:
-$$\frac{d}{dx}\left( \int_{a}^{x} f(u)\,du\right)=f(x).$$
+```{r , echo = TRUE}
+#Função replicate
+replicate(3,sample(x,5,replace = T))
 ```
 
 
+## Distribuições de Probabiliade no R
+
+\scriptsize
+Fazendo $Z \sim N(0,1)$, teremos que:
+
+:::::: {.columns}
+
+::: {.column width="50%"}
+* Densidade $f(x) = \frac{1}{\sqrt{2\pi}}e^{-x^2/2}$
+```{r , echo = TRUE}
+x <- seq(-3,3,length = 1000)
+plot(x,dnorm(x,0,1), col = "red")
+```
+
+* P(Z < 0) = 0.5
 ```{r , echo = TRUE}
 pnorm(0,0,1)
+```
+:::
+
+::: {.column width="1%"}
+\ 
+<!-- an empty Div (with a whitespace), serving as
+a column separator -->
+:::
+
+::: {.column width="49%"}
+
+* Mediana
+```{r , echo = TRUE}
 qnorm(0.5,0,1)
 ```
+* gerando valores aleatórios
+```{r , echo = TRUE}
+hist(rnorm(1000,0,1), 
+     freq = F, col = "green")
+```
 
-* p para probabilidadde acumulada
-* q para quantil
-* d para densidade
-* r gerar uma amostra de uma distribuição
-
-**Simulando variáveis aleatórias no R**
-
-* $rnorm(n,mu,sigma)$ gerando $n$ valores da distribuição Normal($\mu, \sigma$). 
-* $runif(n,a,b)$ gerando $n$ valores da distribuição Uniforme($a,b$).
-* $rexp(n,lambda)$ gerando $n$ valores da distribuição Exponencial($\lambda$). 
-* $rpois(n,lambda)$ gerando $n$ valores da distribuição Poison($\lambda$). 
-* $rbinom(n,K,p)$ gerando $n$ valores da distribuição Binomial($K,p$). 
- 
-
-
-
-
-
+:::
+::::::
 
 
 
@@ -378,52 +413,296 @@ qnorm(0.5,0,1)
 * $rexp(n,lambda)$ gerando $n$ valores da distribuição Exponencial($\lambda$). 
 * $rpois(n,lambda)$ gerando $n$ valores da distribuição Poison($\lambda$). 
 * $rbinom(n,K,p)$ gerando $n$ valores da distribuição Binomial($K,p$). 
- 
+* etc ...
 
 
 
 
 ## Análise descritiva no R
 
+\scriptsize
+* Iremos trabalhar com dados simulados:
 ```{r , echo = TRUE}
+n <- 100
+x <- seq(-2,10,len = n)
+y <- 10 + 2*x + rnorm(n,0,2)
+z <- sample(c("s","n"), n, replace = T, prob = c(0.5,0.5))
 
-pesoH <- rnorm(100,80,5)
-pesoZ <- rnorm(100,60,4)
+Dados <- data.frame(x=x,y=y,z=z)
 
-summary(pesoH)
+str(Dados)
 
-mean(pesoH)
-
-sd(pesoH)
-
-var(pesoH)
-
+Dados[1:3,]
 ```
 
 ## Análise descritiva no R
+
 ```{r , echo = TRUE}
-par(mfrow=c(1,2)) ; hist(pesoH, main="Histograma", ylab = "Densidade", xlab = "Peso" ) 
-hist(pesoH,freq = F, main="Histograma", ylab = "Densidade", xlab = "Peso")
+summary(Dados$y)
+
+sd(Dados$y)
+
+var(Dados$y)
+
+table(Dados$z)
+
 ```
-## Análise descritiva no R box plot
 
-```{r fig-margin, fig.margin=TRUE}
-plot(cars)
+
+## Análise descritiva no R
+
+\scriptsize
+:::::: {.columns}
+
+::: {.column width="50%"}
+
+```{r , echo = TRUE}
+plot(Dados$x,Dados$y,xlab = "x",ylab = "y")
+```
+:::
+
+::: {.column width="1%"}
+\ 
+<!-- an empty Div (with a whitespace), serving as
+a column separator -->
+:::
+
+::: {.column width="49%"}
+
+```{r , echo = TRUE}
+hist(Dados$y, freq = F)
 ```
 
-## Gráficos ggplot2
+
+:::
+::::::
 
 
-* unordered list
-* item 2
-    + sub-item 1
-    + sub-item 2
+
+
+
+## Análise descritiva no R
+
+\scriptsize
+:::::: {.columns}
+
+::: {.column width="50%"}
+
+```{r , echo = TRUE}
+require(ggplot2)
+
+ggplot(Dados, aes(x=x,y=y)) +
+  theme_bw()+
+  geom_point()
+
+
+```
+:::
+
+::: {.column width="1%"}
+\ 
+<!-- an empty Div (with a whitespace), serving as
+a column separator -->
+:::
+
+::: {.column width="49%"}
+
+```{r , echo = TRUE}
+ggplot(Dados, aes(x=y)) +
+  theme_bw()+
+  geom_histogram(aes(y=..density..),
+  colour="black", fill="white",bins = 8)
+```
+
+
+:::
+::::::
+
+
+## Análise descritiva no R
+
+\scriptsize
+:::::: {.columns}
+
+::: {.column width="50%"}
+
+```{r , echo = TRUE}
+boxplot(Dados$y)
+```
+:::
+
+::: {.column width="1%"}
+\ 
+<!-- an empty Div (with a whitespace), serving as
+a column separator -->
+:::
+
+::: {.column width="49%"}
+
+```{r , echo = TRUE}
+boxplot(y~z,data=Dados)
+```
+
+
+:::
+::::::
+
+
+## Análise descritiva no R
+
+\scriptsize
+:::::: {.columns}
+
+::: {.column width="50%"}
+
+```{r , echo = TRUE}
+ggplot(Dados) +
+  geom_boxplot(aes(x = factor(1), y = y)) +
+  xlab(" ")
+```
+:::
+
+::: {.column width="1%"}
+\ 
+<!-- an empty Div (with a whitespace), serving as
+a column separator -->
+:::
+
+::: {.column width="49%"}
+
+```{r , echo = TRUE}
+ggplot(Dados, aes(x=z, y=y)) + 
+  geom_boxplot()
+```
+
+
+:::
+::::::
+
+
+## Análise descritiva no R
+
+\scriptsize
+:::::: {.columns}
+
+::: {.column width="50%"}
+
+```{r , echo = TRUE}
+dados <- data.frame(x = sample(c("S","N"),
+        100,replace = T),y = sample(
+          c("baixo","Médio","Alto"),
+        100,replace = T))
+
+Tabela1 <- table(dados$x)
+
+barplot(Tabela1)
+```
+:::
+
+::: {.column width="1%"}
+\ 
+<!-- an empty Div (with a whitespace), serving as
+a column separator -->
+:::
+
+::: {.column width="49%"}
+
+```{r , echo = TRUE}
+Tabela2 <- table(dados)
+
+barplot(Tabela2,col=c("darkblue","red"), 
+names.arg = c("baixo","Médio","Alto"),
+beside=TRUE)
+```
+
+
+:::
+::::::
+
+
+## Análise descritiva no R
+
+\scriptsize
+:::::: {.columns}
+
+::: {.column width="50%"}
+
+```{r , echo = TRUE}
+ggplot(data = data.frame(Tabela1), 
+  aes(x=Var1, y=Freq)) + 
+  theme_bw() +
+  geom_bar(stat = "identity")
+```
+:::
+
+::: {.column width="1%"}
+\ 
+<!-- an empty Div (with a whitespace), serving as
+a column separator -->
+:::
+
+::: {.column width="49%"}
+
+```{r , echo = TRUE}
+ggplot(data = data.frame(Tabela2), 
+  aes(x=y, y=Freq,fill=x)) + 
+  theme_bw() +
+  scale_fill_manual(values=
+  c("darkblue","red"))+
+  geom_bar(stat = "identity",
+  position=position_dodge())
+```
+
+
+:::
+::::::
+
+
+
 
 ## Ajustando um modelo de regressão no R
 
 
+A sintaxe básica para ajustar um modelo de regressão linear no R é **lm(y~x,data)**, em que $y$ é a variável resposta e a variável $x$ é a variável explicativa.
+
+Assim, considerando 
+\scriptsize
+```{r}
+n <- 40
+x <- seq(1,10, len = n) 
+y <- 2 + 0.5*x + rnorm(n,0,1)
+
+Dados <- data.frame(x=x,y=y)
+
+Ajuste <- lm(y ~ x,data = Dados )
+
+names(Ajuste)
+
+```
 
 
+
+## Ajustando um modelo de regressão no R
+
+\scriptsize
+```{r}
+
+Ajuste$coefficients
+
+Ajuste$fitted.values
+
+sum(Ajuste$residuals)
+
+```
+
+
+## Ajustando um modelo de regressão no R
+
+```{r}
+
+summary(Ajuste)
+
+```
 
 
 
