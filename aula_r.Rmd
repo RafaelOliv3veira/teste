@@ -41,7 +41,7 @@ a column separator -->
 ::: {.column width="49%"}
 * Aberto e gratuito, é compatível com Windows, Linux e Mac.
 * Atualmente o R está na versão \textcolor{red}{3.6.3}.
-* RStudio é um Ambiente de Desenvolvimento Integrado (IDE - inglês Integrated Development Environment) para criar e rodar o código R.
+* RStudio é um Ambiente de Desenvolvimento Integrado (IDE - Integrated Development Environment) para criar e rodar o código R.
 * Onde podemos baixar o R e o RStudio ?
     + <https://cran.r-project.org/>
     + <https://rstudio.com/products/rstudio/download/>
@@ -104,13 +104,12 @@ knitr::include_graphics("rmark4.png")
 ```{r, echo = TRUE, size= "scriptsize"}
 #Adição
 2+2
-
 #Subtração
+2-2
+#multiplicação
 2*2
-
 #Divisão
 2/2
-
 #Potenciação
 2^2
 ```
@@ -124,7 +123,7 @@ sqrt(4)
 log(2,10)
 #Logaritmo na base e
 log(2)
-#exponencial
+#Exponencial
 exp(2)
 #Fatorial
 factorial(2)
@@ -137,22 +136,23 @@ factorial(2)
 #Valor absoluto
 abs(-2)
 #Arredondando
-round(exp(2),2)
-#função Piso
-floor(log(2))
-#função teto
-ceiling(log(2))
-
-
+round(3.141516,2)
+#Função Piso
+floor(3.141516)
+#Função teto
+ceiling(3.141516)
 ```
 
-## Tipo de Objetos: vetor, matriz, arrays, data-frames, listas e funções
+## Objetos do R: vetor
+
 \scriptsize
 * Vetor
 ```{r , echo = TRUE, size= 'scriptsize'}
 x <- c(3,1,5,4)
 #Selecionando o segundo valor do vetor
 x[2]
+#Apagando um elemento do vetor
+x[-2]
 #Sequência
 y <- 1:10
 y
@@ -169,11 +169,11 @@ z
 rep(6,4)
 #Repetindo o vetor quatro vezes
 rep(c(1,2,3),4)
-#Repetindo o vetor quatro vezes
+#Repetindo cada elemento do vetor quatro vezes
 rep(c(1,2,3),each = 4)
-#soma dos elementos de um vetor
+#Soma dos elementos de um vetor
 sum(c(1,2,3))
-#produto dos elementos de um vetor
+#Produto dos elementos de um vetor
 prod(c(1,2,3))
 ```
 
@@ -183,33 +183,24 @@ prod(c(1,2,3))
 ```{r , echo = TRUE}
 #Comprimento de um vetor
 length(c(1,2,3))
-#Ordenando os elementos de um vetor ... crescente
-sort(c(2,1,3),decreasing = FALSE)
-#Ordenando os elementos de um vetor ... decrescente
-sort(c(2,1,3),decreasing = TRUE)
+#Ordenando os elementos de um vetor de forma crescente
+sort(c(4,1,6),decreasing = FALSE)
+#Esta função retorna a posição dos elementos do vetor
+#ordenados conforme os valores do vetor
+order(c(4,1,6),decreasing = FALSE)
+#Esta função retorna o máximo
+max(c(1,1,2,3))
+##Esta função retorna o mínimo
+min(c(0,1,2,3))
 ```
 
-
-## Vetor
-\scriptsize
-```{r , echo = TRUE}
-#retorna a posição dos elementos ...
-order(c(2,8,-4), decreasing = FALSE)
-#retorna a posição dos elementos ...
-order(c(2,8,-4), decreasing = TRUE)
-#retorna a posição dos elementos ...
-pmax(2,c(1,1,2,3))
-#retorna a posição dos elementos ...
-pmin(1,c(0,1,2,3))
-
-```
 
 ## Matriz
 \scriptsize
 ```{r , echo = TRUE}
 M <- matrix(c(1,2,3,4),ncol = 2,nrow = 2)
 M
-#Selecionando os valores
+#Selecionando os valores de uma matriz
 M[1,1]
 M[,1]
 M[2,]
@@ -220,7 +211,7 @@ M[2,]
 ```{r , echo = TRUE}
 M <- matrix(0,ncol = 2,nrow = 2)
 M
-# ...  os valores
+# Inserindo os valores em uma matriz
 M[1,1] <- 1
 M[2,] <- c(2,2)
 M
@@ -232,8 +223,10 @@ M
 #Matriz diagonal
 M <- diag(c(1,2))
 M
-# multiplicando matriz
+#Multiplicando uma matriz por outra matriz
 M%*%M
+#Multiplicando um matriz por um escalar
+2*M
 ```
 
 ## Matriz
@@ -241,14 +234,15 @@ M%*%M
 ```{r , echo = TRUE}
 D <- matrix(c(1,2,3,4),ncol = 2,nrow = 2)
 D
-# matriz transposta
+#Matriz transposta
 t(D)
-# matriz inversa
+#Matriz inversa
 solve(D)
 ```
 
 ## Funções
 
+\scriptsize
 **Criando uma função:**
 
 nome da função <- function(argumentos)$\{$ comandos da função  $\}$
@@ -262,22 +256,24 @@ z <- c(1,3,2,5,3,6)
 zbar <- function(x){ sum(x)/length(x)}
 zbar(z)
 
+mean(z)
 
 ```
 
 
 ## Funções do R
 
+\scriptsize
 **Operadores de comparação**
 
 * Igualdade: ==
-* Não igual: !=
+* Diferente: !=
 * Menor: <
 * Maior: >
 * Menor ou igual: <=
 * Maior ou igual: >=
 
-**Operadores lógicos**E: && Ou: ||
+**Operadores lógicos** E: && Ou: ||
 
 **Condicionais**
 
@@ -285,7 +281,6 @@ if (Expressão teste) $\{$
 declaração
 $\}$ else  declaração
 
-\scriptsize
 ```{r , echo = TRUE}
 x <- 3
 if(x >= 1 & x <= 6){print("sim")} else {print("Não")}
@@ -295,6 +290,7 @@ if(x >= 1 & x <= 6){print("sim")} else {print("Não")}
 
 ## Funções do R - Ciclos
 
+\scriptsize
 **While**
 
 ```{r , echo = TRUE}
@@ -310,18 +306,6 @@ for(i in 0:4){x[i+1] <- 2*i+1}
 x
 ```
 
-## A família apply 
-
-A família apply é composta por um conjunto de funções que pertencem nativamente ao R (pacote base).
-
-É importante frisar que essas funções não surgiram para substituir os loops convencionais e sim, como uma alternativa adicional para análises mais complexas.
-
-* apply() 
-
-* lapply() 
-
-* sapply() 
-
 ## Pacotes no R
 
 Como instalar um pacote no R ?
@@ -329,14 +313,14 @@ Como instalar um pacote no R ?
 install.packages("nome do pacote")
 
 
-Como chamar os pacotes ?
+Como carregar um pacote ?
 
-require("nome do pacote")
-
+require("nome do pacote") ou  library("nome do pacote")
 
 
 ## Função Sample
 
+\scriptsize
 ```{r , echo = TRUE}
 x <- c("Cara", "Coroa")
 #lançando uma moeda
@@ -345,12 +329,7 @@ resultados <- sample(x,5,replace = T)
 resultados 
 
 table(resultados)
-```
 
-
-## Funções do R
-
-```{r , echo = TRUE}
 #Função replicate
 replicate(3,sample(x,5,replace = T))
 ```
@@ -401,19 +380,19 @@ hist(rnorm(1000,0,1),
 
 ## Distribuições de Probabiliade no R
 
-* p para probabilidadde acumulada
-* q para quantil
-* d para densidade
-* r gerar uma amostra de uma distribuição
+* p para probabilidadde acumulada;
+* q para quantil;
+* d para densidade;
+* r gerar uma amostra de uma distribuição.
 
 **Simulando variáveis aleatórias no R**
 
-* $rnorm(n,mu,sigma)$ gerando $n$ valores da distribuição Normal($\mu, \sigma$). 
-* $runif(n,a,b)$ gerando $n$ valores da distribuição Uniforme($a,b$).
-* $rexp(n,lambda)$ gerando $n$ valores da distribuição Exponencial($\lambda$). 
-* $rpois(n,lambda)$ gerando $n$ valores da distribuição Poison($\lambda$). 
-* $rbinom(n,K,p)$ gerando $n$ valores da distribuição Binomial($K,p$). 
-* etc ...
+* $rnorm(n,mu,sigma)$ gerando $n$ valores da distribuição Normal($\mu, \sigma$);
+* $runif(n,a,b)$ gerando $n$ valores da distribuição Uniforme($a,b$);
+* $rexp(n,lambda)$ gerando $n$ valores da distribuição Exponencial($\lambda$); 
+* $rpois(n,lambda)$ gerando $n$ valores da distribuição Poison($\lambda$); 
+* $rbinom(n,K,p)$ gerando $n$ valores da distribuição Binomial($K,p$);
+* etc.
 
 
 
@@ -437,6 +416,7 @@ Dados[1:3,]
 
 ## Análise descritiva no R
 
+\scriptsize
 ```{r , echo = TRUE}
 summary(Dados$y)
 
@@ -644,7 +624,10 @@ a column separator -->
 ::: {.column width="49%"}
 
 ```{r , echo = TRUE}
-ggplot(data = data.frame(Tabela2), 
+Dado1 <-data.frame(Tabela2) 
+Dado1$y <- factor(Dado1$y,levels = 
+c("baixo","Médio","Alto"))
+ggplot(data = Dado1 , 
   aes(x=y, y=Freq,fill=x)) + 
   theme_bw() +
   scale_fill_manual(values=
@@ -698,6 +681,7 @@ sum(Ajuste$residuals)
 
 ## Ajustando um modelo de regressão no R
 
+\scriptsize
 ```{r}
 
 summary(Ajuste)
@@ -705,7 +689,89 @@ summary(Ajuste)
 ```
 
 
+## Ajustando um modelo de regressão no R
+
+
+\scriptsize
+:::::: {.columns}
+
+::: {.column width="50%"}
+
+```{r , echo = TRUE}
+plot(Dados$x ,Dados$y, 
+xlab = "x", ylab = "y") 
+abline(Ajuste,col = "blue")
+abline(c(2,0.5),col = "red")
+legend(1,7,c("Reta estimada","Reta real"),
+lwd=c(5,2),  col=c("green","red"),
+y.intersp=1.5)
+```
+:::
+
+::: {.column width="1%"}
+\ 
+<!-- an empty Div (with a whitespace), serving as
+a column separator -->
+:::
+
+::: {.column width="49%"}
+
+```{r , echo = TRUE}
+ggplot(Dados,aes(x=x,y=y))+
+theme_bw()+ geom_point() +
+geom_smooth(method = "lm", se = FALSE,
+aes(colour="Reta Estimada") )+
+geom_abline(aes(slope = 0.5, 
+intercept = 2,  colour = "Reta Real")) +
+scale_colour_manual(name="",
+values=c("blue", "red"))
+```
+
+
+:::
+::::::
+
+
+## Ajustando um modelo de regressão no R
+
+\scriptsize
+```{r , echo = TRUE}
+n <- 50;  x <- seq(1,10, len = n) ; z <- seq(20,40, len = n) 
+y <- 0.5*x + 2*z + rnorm(n,0,2)
+
+Dados2 <- data.frame(x=x,y=y,z=z)
+
+Ajuste2 <- lm(y ~ x + z -1,data = Dados2 )
+
+summary(Ajuste2)
+```
 
 
 
+## Referências
 
+* COOKBOOK FOR R. Cookbook for R. Disponível em: <http://www.cookbook-r.com/>. 
+CURSO R. Material das aulas do curso de R. Disponível em: <http://curso-r.github.io/>. 
+
+* KABACOFF, R.I. Quick-R: Descriptives. Disponível em:
+<http://www.statmethods.net/stats/descriptives.html>. 
+
+* KABACOFF, R.I. Quick-R: Frequencies. Disponível em:
+<http://www.statmethods.net/stats/frequencies.html>. 
+
+* KABACOFF, R.I. Quick-R: Pie Charts. Disponível em:
+<http://www.statmethods.net/graphs/pie.html>. 
+
+* IQSS-HARVARD. Introduction to R Graphics with ggplot2. Disponível em:
+< http://tutorials.iq.harvard.edu/R/Rgraphics/Rgraphics.html >. 
+
+* STACK OVERFLOW. Frequent ‘r’ Questions – Stack Overflow. Disponível em:
+< https://stackoverflow.com/questions/tagged/r >.
+
+* STACK OVERFLOW EM PORTUGUÊS. Perguntas ‘r’ Mais Recentes – Stack Overflow em
+Português. Disponível em: < http://pt.stackoverflow.com/questions/tagged/r >.
+
+## Agradecimentos
+
+\Huge
+\quad \quad \quad \quad \quad Obrigado!
